@@ -15,119 +15,124 @@ class BodyGps extends StatefulWidget {
 
 class _BodyGpsState extends State<BodyGps> {
   int counter = 0;
-
-  List<dynamic> row = [];
-
-  Future<void> getdata() async {
-    var res = await connect().get('showbuilding');
-    setState(() {
-      row = jsonDecode(res.body);
-      print(row);
-    });
-  }
-
-  @override
-  void initState() {
-    getdata();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    return Column(
-      children: [
-        Header(size: size),
-        Container(
-          child: Container(
+    
+    List<dynamic> showidclass ;
+    List<dynamic> row = [];
+  
+    Future<void> getdata() async {
+      var res = await connect().get('showbuilding');
+      setState(() {
+        row = jsonDecode(res.body);
+        print(row);
+      });
+    }
+    
+  
+  
+    @override
+    void initState() {
+      getdata();
+      super.initState();
+    }
+  
+    @override
+    Widget build(BuildContext context) {
+      Size size = MediaQuery.of(context).size;
+      return Column(
+        children: [
+          Header(size: size),
+          Container(
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.yellow[400],
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    offset: Offset(0, 50),
+                    blurRadius: 50,
+                    color: kPrimaryColor.withOpacity(0.23),
+                  ),
+                ],
+              ),
+              child: Text(
+                'ระบบนำทางภายในมหาวิทยาลัย',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              alignment: Alignment.center,
+            ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Container(
+            alignment: Alignment.center,
             margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
             height: 40,
             decoration: BoxDecoration(
-              color: Colors.yellow[400],
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0, 50),
-                  blurRadius: 50,
-                  color: kPrimaryColor.withOpacity(0.23),
-                ),
-              ],
-            ),
-            child: Text(
-              'ระบบนำทางภายในมหาวิทยาลัย',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            alignment: Alignment.center,
-          ),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        Container(
-          alignment: Alignment.center,
-          margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-          height: 40,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0, 10),
-                  blurRadius: 50,
-                  color: kPrimaryColor.withOpacity(0.23),
-                )
-              ]),
-          child: Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  onChanged: (value) {},
-                  decoration: InputDecoration(
-                    hintText: "ค้นหาอาคาร",
-                    hintStyle: TextStyle(
-                      color: kPrimaryColor.withOpacity(0.5),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    offset: Offset(0, 10),
+                    blurRadius: 50,
+                    color: kPrimaryColor.withOpacity(0.23),
+                  )
+                ]),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    onChanged: (value) {},
+                    decoration: InputDecoration(
+                      hintText: "ค้นหาอาคาร",
+                      hintStyle: TextStyle(
+                        color: kPrimaryColor.withOpacity(0.5),
+                      ),
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      // suffixIcon: Icon(Icons.screen_search_desktop),
                     ),
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    // suffixIcon: Icon(Icons.screen_search_desktop),
                   ),
                 ),
-              ),
-              Icon(Icons.search_sharp),
-            ],
+                Icon(Icons.search_sharp),
+              ],
+            ),
           ),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Expanded(
-          child: GridView.count(
-            crossAxisCount: 2,
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 20,
-            children: List.generate(row.length, (index) {
-              return Center(
-                child: buildingCard(
-                    textname: row[index]["name"],
-                    latitude: row[index]["latitude"],
-                    longitude: row[index]["longitude"],
-                    ontab: () {
-                      print(row[index]["id"]);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) {
-                          return Show_class();
-                        }),
-                      );
-                    }),
-              );
-            }),
+          SizedBox(
+            height: 20,
           ),
-        ),
-      ],
-    );
+          Expanded(
+            child: GridView.count(
+              crossAxisCount: 2,
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 20,
+              children: List.generate(row.length, (index) {
+                return Center(
+                  child: buildingCard(
+                      textname: row[index]["name"],
+                      latitude: row[index]["latitude"],
+                      longitude: row[index]["longitude"],
+                      ontab: () {
+                        print("ID class :"+ row[index]["id"].toString());
+  MaterialPageRoute materialPageRoute = MaterialPageRoute(builder: (context) => Show_class(showidclass : row[index]["id"].toString(),));
+                      Navigator.of(context).push(materialPageRoute);
+                       
+                      }),
+                );
+              }),
+            ),
+          ),
+        ],
+      );
+    }
   }
+  
+  class Showidclass {
+    
 }
+
 
 class buildingCard extends StatelessWidget {
   final String textname;
@@ -140,7 +145,7 @@ class buildingCard extends StatelessWidget {
     this.textname,
     this.latitude,
     this.longitude,
-    this.ontab,
+    this.ontab, showidclass,
   }) : super(key: key);
 
   @override
