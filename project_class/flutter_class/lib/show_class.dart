@@ -1,11 +1,10 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_class/constants.dart';
 import 'package:flutter_class/mapgsp.dart';
 import 'package:flutter_class/service/config.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'bodyGps.dart';
+
 import 'header.dart';
 
 class Show_class extends StatefulWidget {
@@ -21,7 +20,7 @@ class Show_class extends StatefulWidget {
 
 class _Show_classState extends State<Show_class> {
   List<dynamic> row = [];
-
+  
   Future<void> getdata() async {
     var res = await connect().get('showclass/${widget.showidbuilding}');
     setState(() {
@@ -55,7 +54,7 @@ class _Show_classState extends State<Show_class> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => gpsMap(),
+                  builder: (context) => gpsMap(showname : '${widget.shownamebuilding}',),
                 ),
               ),
             },
