@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_class/constants.dart';
+import 'package:flutter_class/mapgsp.dart';
 import 'package:flutter_class/service/config.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'bodyGps.dart';
@@ -11,27 +12,28 @@ class Show_class extends StatefulWidget {
   final String showidbuilding;
   final String shownamebuilding;
 
-  Show_class({Key key, this.showidbuilding, this.shownamebuilding}) : super(key: key);
+  Show_class({Key key, this.showidbuilding, this.shownamebuilding})
+      : super(key: key);
 
   @override
   _Show_classState createState() => _Show_classState();
 }
+
 class _Show_classState extends State<Show_class> {
   List<dynamic> row = [];
- 
-     Future<void> getdata() async {
-  
-        var res = await connect().get('showclass/${widget.showidbuilding}');
+
+  Future<void> getdata() async {
+    var res = await connect().get('showclass/${widget.showidbuilding}');
     setState(() {
       row = jsonDecode(res.body);
       print(row);
       print('id class  =  ${widget.showidbuilding}');
     });
-
   }
-@override
+
+  @override
   void initState() {
-        getdata();
+    getdata();
     super.initState();
   }
 
@@ -47,25 +49,36 @@ class _Show_classState extends State<Show_class> {
           SizedBox(
             height: 10,
           ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-            height: 40,
-            decoration: BoxDecoration(
-              color: Colors.yellow[300],
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  offset: Offset(0, 50),
-                  blurRadius: 50,
-                  color: kPrimaryColor.withOpacity(0.23),
+          GestureDetector(
+             onTap: () => {
+              print('กดระบบนำทางภายในมหาวิทยาลัย'),
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => gpsMap(),
                 ),
-              ],
+              ),
+            },
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+              height: 40,
+              decoration: BoxDecoration(
+                color: Colors.red[400],
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    offset: Offset(0, 50),
+                    blurRadius: 50,
+                    color: kPrimaryColor.withOpacity(0.23),
+                  ),
+                ],
+              ),
+              child: Text(
+                'กดเพื่อนำทางไปยังอาคาร : ${widget.shownamebuilding}',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              alignment: Alignment.center,
             ),
-            child: Text(
-              'นำทางไปยังอาคาร : ${widget.shownamebuilding}',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-            alignment: Alignment.center,
           ),
           SizedBox(
             height: 10,
@@ -85,7 +98,7 @@ class _Show_classState extends State<Show_class> {
               ],
             ),
             child: Text(
-              'Building : ${widget.shownamebuilding}',
+              'ข้อมูลห้องภายในอาคาร : ${widget.shownamebuilding}',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             alignment: Alignment.center,
@@ -93,7 +106,6 @@ class _Show_classState extends State<Show_class> {
           SizedBox(
             height: 10,
           ),
-          //  showMap(),
           Expanded(
             child: GridView.count(
               crossAxisCount: 2,
@@ -101,12 +113,12 @@ class _Show_classState extends State<Show_class> {
               mainAxisSpacing: 20,
               children: List.generate(row.length, (index) {
                 return Center(
-                  child: buildingCard(
+                  child: classCard(
                       name_class: row[index]["name_class"],
-                      latitude: row[index]["latitude"],
-                      longitude: row[index]["longitude"],
+                      floor: row[index]["floor"],
+                      phone: row[index]["phone"],
                       ontab: () {
-                         print("ID class :" + row[index]["id"].toString());
+                        print("ID class :" + row[index]["id_c"].toString());
                         // MaterialPageRoute materialPageRoute = MaterialPageRoute(
                         //     builder: (context) => Show_class(
                         //           showidclass: row[index]["id"].toString(),
@@ -145,20 +157,73 @@ class _Show_classState extends State<Show_class> {
 
   AppBar get buildAppBar {
     return AppBar(
-      title: Text('ID class = ${widget.showidbuilding}'.toString()),
       elevation: 0,
     );
   }
 }
 
-
 class _controller {
   static void complete(GoogleMapController controller) {}
 }
-// child: Container(
-//           alignment: Alignment.center,
-//           height: 400,
-//           color: Colors.blueAccent,
-//           width: 300,
-//           child: Text('ID class = ${widget.showidclass}',style: TextStyle(color: Colors.white,fontSize: 30,),),
-//         )
+
+class classCard extends StatelessWidget {
+  final String textname;
+  final double latitude;
+  final double longitude;
+  final Function ontab;
+  final String name_class;
+  final String detail;
+  final int floor;
+  final String phone;
+
+  const classCard({
+    Key key,
+    this.textname,
+    this.latitude,
+    this.longitude,
+    this.name_class,
+    this.ontab,
+    showidclass,
+    this.detail,
+    this.floor,
+    this.phone,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: ontab,
+      child: Container(
+        alignment: Alignment.center,
+        margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(15),
+            boxShadow: [
+              BoxShadow(
+                offset: Offset(0, 15),
+                blurRadius: 17,
+                spreadRadius: -10,
+                color: kPrimaryColor,
+              )
+            ]),
+        child: Column(
+          children: <Widget>[
+            Image.asset("images/tc.jpg"),
+            Text(
+              "${name_class}",
+              style: Theme.of(context)
+                  .textTheme
+                  .title
+                  .copyWith(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            Text('ชั้น:${floor}'.toString(), style: TextStyle(fontSize: 12)),
+            Text('เบอร์โทรติดต่อ:\n${phone}'.toString(),
+                style: TextStyle(fontSize: 12)),
+          ],
+        ),
+      ),
+    );
+  }
+}

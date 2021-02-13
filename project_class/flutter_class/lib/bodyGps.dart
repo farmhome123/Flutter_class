@@ -45,7 +45,7 @@ class _BodyGpsState extends State<BodyGps> {
             margin: EdgeInsets.symmetric(horizontal: kDefaultPadding),
             height: 40,
             decoration: BoxDecoration(
-              color: Colors.yellow[400],
+              color: Colors.blue[300],
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
@@ -56,7 +56,7 @@ class _BodyGpsState extends State<BodyGps> {
               ],
             ),
             child: Text(
-              'ระบบนำทางภายในมหาวิทยาลัย',
+              'อาคารทั้งหมด',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             alignment: Alignment.center,
@@ -138,6 +138,9 @@ class buildingCard extends StatelessWidget {
   final double longitude;
   final Function ontab;
   final String name_class;
+  final String detail; 
+  final int floor;
+  final String phone;
   
 
   const buildingCard({
@@ -147,7 +150,8 @@ class buildingCard extends StatelessWidget {
     this.longitude,
     this.name_class,
     this.ontab,
-    showidclass,
+    this.detail, this.floor, this.phone,
+  
   }) : super(key: key);
 
   @override
