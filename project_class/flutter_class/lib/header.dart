@@ -32,7 +32,7 @@ class Header extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Text(
-                  'Application for Rmutl\n (Jedlin) Navagation',
+                  'Application for Rmutl\n (Jedlin) Navigation',
                   style: TextStyle(
                       fontSize: 20,
                       color: Colors.white,
@@ -42,7 +42,7 @@ class Header extends StatelessWidget {
             ),
           ),
           Positioned(
-
+          
             bottom: 70,
             left: 165,
             child: Row(
@@ -52,6 +52,7 @@ class Header extends StatelessWidget {
                   fit: BoxFit.fill,
                   height: 90,
                   width: 90,
+                  
                 ),
               ],
             ),
