@@ -34,7 +34,7 @@ dependencies:
   shared_preferences: ^0.5.12+4
   http: ^0.12.2
   spinner_input: ^0.1.2
-  flutter_svg: ^0.18.0
+  flutter_svg: ^0.19.1
   google_maps_flutter: ^1.2.0
   location: ^3.2.4
   flutter_polyline_points: ^0.2.1

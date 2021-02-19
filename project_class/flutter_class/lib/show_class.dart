@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_class/constants.dart';
 import 'package:flutter_class/mapgsp.dart';
 import 'package:flutter_class/service/config.dart';
+import 'package:flutter_class/showdetailclass.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'header.dart';
@@ -12,6 +13,7 @@ class Show_class extends StatefulWidget {
   final String shownamebuilding;
   final double showlatitude;
   final double showlongitude;
+
 
   Show_class({Key key, this.showidbuilding, this.shownamebuilding, this.showlatitude, this.showlongitude})
       : super(key: key);
@@ -119,17 +121,17 @@ class _Show_classState extends State<Show_class> {
                 return Center(
                   child: classCard(
                       name_class: row[index]["name_class"],
-                    
                       floor: row[index]["floor"],
                       phone: row[index]["phone"],
                     
                       ontab: () {
                         print("ID class :" + row[index]["id_c"].toString());
-                        // MaterialPageRoute materialPageRoute = MaterialPageRoute(
-                        //     builder: (context) => Show_class(
-                        //           showidclass: row[index]["id"].toString(),
-                        //         ));
-                        // Navigator.of(context).push(materialPageRoute);
+                        print('name_class :'+row[index]['name_class'].toString());
+                        MaterialPageRoute materialPageRoute = MaterialPageRoute(
+                            builder: (context) => ShowDetailclass(
+                                 name_class: row[index]["name_class"], showidclass: row[index]["id_c"],phone: row[index]["phone"],detail:row[index]["detail"],floor: row[index]["floor"].toString(),
+                                ));
+                        Navigator.of(context).push(materialPageRoute);
                       }),
                 );
               }),
