@@ -10,8 +10,10 @@ import 'header.dart';
 class Show_class extends StatefulWidget {
   final String showidbuilding;
   final String shownamebuilding;
+  final double showlatitude;
+  final double showlongitude;
 
-  Show_class({Key key, this.showidbuilding, this.shownamebuilding})
+  Show_class({Key key, this.showidbuilding, this.shownamebuilding, this.showlatitude, this.showlongitude})
       : super(key: key);
 
   @override
@@ -51,10 +53,12 @@ class _Show_classState extends State<Show_class> {
           GestureDetector(
              onTap: () => {
               print('กดระบบนำทางภายในมหาวิทยาลัย'),
+              print('latitude = ${widget.showlatitude} ,logitude  = ${widget.showlongitude}'),
+              
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => gpsMap(showname : '${widget.shownamebuilding}',),
+                  builder: (context) => gpsMap(showname : '${widget.shownamebuilding}',latitude : widget.showlatitude,longitude : widget.showlongitude),
                 ),
               ),
             },
@@ -74,6 +78,7 @@ class _Show_classState extends State<Show_class> {
               ),
               child: Text(
                 'กดเพื่อนำทางไปยังอาคาร : ${widget.shownamebuilding}',
+    
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               ),
               alignment: Alignment.center,
@@ -114,8 +119,10 @@ class _Show_classState extends State<Show_class> {
                 return Center(
                   child: classCard(
                       name_class: row[index]["name_class"],
+                    
                       floor: row[index]["floor"],
                       phone: row[index]["phone"],
+                    
                       ontab: () {
                         print("ID class :" + row[index]["id_c"].toString());
                         // MaterialPageRoute materialPageRoute = MaterialPageRoute(

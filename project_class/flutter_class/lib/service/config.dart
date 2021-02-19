@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 
 class connect {
-  String url = "http://192.168.1.58:3001/";
+  String url = "http://43988e6cece8.ngrok.io/";
   var header = {HttpHeaders.contentTypeHeader: "application/json"};
 
   Future<http.Response> post(router, data) {

@@ -17,6 +17,8 @@ class _BodyGpsState extends State<BodyGps> {
   int counter = 0;
 
   List<dynamic> showidbuilding;
+  List<double> showlatitude;
+  List<double> showlongitude;
   
   List<dynamic> row = [];
 
@@ -117,7 +119,7 @@ class _BodyGpsState extends State<BodyGps> {
                       print("ID class :" + row[index]["id"].toString());
                       MaterialPageRoute materialPageRoute = MaterialPageRoute(
                           builder: (context) => Show_class(
-                                showidbuilding: row[index]["id"].toString(),shownamebuilding: row[index]["name"],
+                                showidbuilding: row[index]["id"].toString(),shownamebuilding: row[index]["name"],showlatitude:row[index]["latitude"], showlongitude:row[index]["longitude"],
                               ));
                       Navigator.of(context).push(materialPageRoute);
                     }),
